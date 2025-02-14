@@ -44,6 +44,20 @@
             transform: translateY(-2px);
         }
 
+        .btn-danger {
+            background-color: var(--tropical-primary);
+            border-color: var(--tropical-primary);
+            border-radius: 25px;
+            padding: 8px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            background-color: var(--tropical-dark);
+            border-color: var(--tropical-dark);
+            transform: translateY(-2px);
+        }
+
         .table {
             border-collapse: separate;
             border-spacing: 0 8px;
@@ -178,6 +192,13 @@
                                     <path fill-rule="evenodd" d="M1 13.5V16h2.5L13 6.5l-2.5-2.5L1 13.5zm1.5.5h-1v-1l9-9L12 5l-9 9z"/>
                                 </svg>
                                 Edit
+                            </a>
+                            <a th:href="@{/product/delete/{productId}(productId=${product.productId})}" class="btn btn-danger btn-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 5h4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1-.5-.5H6a.5.5 0 0 1-.5.5v7a.5.5 0 0 1-1 0v-7z"/>
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1v-1h12v1zM4.118 4 3.5 13.5V14h9v-.5L11.882 4H4.118zM1 2h14v1a2 2 0 0 1-2 2h-1v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5H3a2 2 0 0 1-2-2V2z"/>
+                                </svg>
+                                Delete
                             </a>
                         </td>
                     </tr>
