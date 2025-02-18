@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith(SeleniumJupiter.class)
-class HomePageFunctionalTest {
+class CreateProductFunctionalTest {
     /**
      * The port number assigned to the running application during test execution.
      * Set automatically during each test run by Spring Framework's test context.
@@ -25,6 +25,7 @@ class HomePageFunctionalTest {
     @Value("${app.baseUrl:http://localhost}")
     private String testBaseUrl;
     private String baseUrl;
+
     @BeforeEach
     void setupTest() {
         baseUrl = String.format("%s:%d", testBaseUrl, serverPort);
@@ -33,17 +34,27 @@ class HomePageFunctionalTest {
     @Test
     void pageTitle_isCorrect(ChromeDriver driver) throws Exception {
         // Exercise
-        driver.get(baseUrl + "/product/list");
+        driver.get(baseUrl + "/product/create");
         String pageTitle = driver.getTitle();
         // Verify
-        assertEquals("Product List", pageTitle);
+        assertEquals("eShop - Create Product", pageTitle);
     }
+
     @Test
-    void welcomeMessage_homePage_isCorrect(ChromeDriver driver) throws Exception {
-        // Exercise
-        driver.get(baseUrl + "/product/list");
-        String welcomeMessage = driver.findElement(By.tagName("h2")).getText();
-        // Verify
-        assertEquals("Product List", welcomeMessage);
+    void createAndFindProduct(ChromeDriver driver) throws Exception {
+        // Create a product on Create Product Page
+        driver.get(baseUrl + "/product/create");
+        driver.findElement(By.id("nameInput")).sendKeys("Sampo Cap Bambang");
+        driver.findElement(By.id("quantityInput")).clear();
+        driver.findElement(By.id("quantityInput")).sendKeys("100");
+        driver.findElement(By.tagName("button")).click();
+
+        // Find the product on Product List Page
+        assertEquals("Product List", driver.getTitle());
+        String productName = driver.findElement(By.xpath("//td[contains(text(), 'Sampo Cap Bambang')]")).getText();
+        assertEquals("Sampo Cap Bambang", productName);
+        String productQuantityText = driver.findElement(By.xpath("//td[contains(text(), 'Sampo Cap Bambang')]/following-sibling::td")).getText();
+        int productQuantity = Integer.parseInt(productQuantityText);
+        assertEquals(100, productQuantity);
     }
 }
