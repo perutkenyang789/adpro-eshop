@@ -30,6 +30,7 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
@@ -39,12 +40,11 @@ dependencies {
     testImplementation("org.seleniumhq.selenium:selenium-java:$seleniumJavaVersion")
     testImplementation("io.github.bonigarcia:selenium-jupiter:$seleniumJupiterVersion")
     testImplementation("io.github.bonigarcia:webdrivermanager:$webdrivermanagerVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
 }
 
-tasks.register<Test>("unittest") {
-    description = "Run unit tests."
+tasks.register<Test>("unitTest") {
+    description = "Runs unit tests."
     group = "verification"
 
     filter {
@@ -53,13 +53,14 @@ tasks.register<Test>("unittest") {
 }
 
 tasks.register<Test>("functionalTest") {
-    description = "Run functional tests."
+    description = "Runs functional tests."
     group = "verification"
 
     filter {
         includeTestsMatching("*FunctionalTest")
     }
 }
+
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
