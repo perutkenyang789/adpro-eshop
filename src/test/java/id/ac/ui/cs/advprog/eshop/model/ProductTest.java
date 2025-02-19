@@ -28,4 +28,11 @@ class ProductTest {
     void testGetProductQuantity() {
         assertEquals(100, this.product.getProductQuantity());
     }
+
+    @Test
+    void testProductConstructor() {
+        Product newProduct = new Product();
+        assertNotNull(newProduct.getProductId());
+        assertTrue(newProduct.getProductId().matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"));
+    }
 }
