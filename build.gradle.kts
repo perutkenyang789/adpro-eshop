@@ -3,6 +3,7 @@ plugins {
     jacoco
     id("org.springframework.boot") version "3.4.2"
     id("io.spring.dependency-management") version "1.1.7"
+    id("org.sonarqube") version "6.0.1.5171"
 }
 
 group = "id.ac.ui.cs.advprog"
@@ -74,10 +75,18 @@ tasks.test {
     finalizedBy(tasks.jacocoTestReport)
 }
 
-tasks.jacocoTestReport{
+tasks.jacocoTestReport {
     dependsOn(tasks.test)
     reports {
-        html.required = true
-        xml.required = true
+        html.required.set(true)
+        xml.required.set(true)
+    }
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "perutkenyang789_adpro-eshop")
+        property("sonar.organization", "e-shop-advanced-programming")
+        property("sonar.host.url", "https://sonarcloud.io")
     }
 }
