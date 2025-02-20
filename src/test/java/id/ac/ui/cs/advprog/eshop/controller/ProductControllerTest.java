@@ -31,6 +31,12 @@ class ProductControllerTest {
     }
 
     @Test
+    void testDefaultPage() {
+        String viewName = productController.getDefaultPage();
+        assertEquals("redirect:/product/list", viewName);
+    }
+
+    @Test
     void testCreateProductPage() {
         String viewName = productController.createProductPage(model);
         assertEquals("CreateProduct", viewName);

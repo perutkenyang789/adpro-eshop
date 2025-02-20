@@ -19,6 +19,12 @@ public class ProductController {
         this.service = service;
     }
 
+    @GetMapping("/")
+    public String getDefaultPage() {
+        // TODO: Implement this method for the home page in future development
+        return "redirect:/product/list";
+    }
+
     @GetMapping("/create")
     public String createProductPage(Model model) {
         Product product = new Product();
