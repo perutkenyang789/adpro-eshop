@@ -16,9 +16,13 @@ class ProductRepositoryTest {
 
     @InjectMocks
     ProductRepository productRepository;
+
     @BeforeEach
     void setUp() {
+        // Do nothing for now
+        // Can be used to initialize variables if needed in future developments.
     }
+
     @Test
     void testCreateAndFind() {
         Product product = new Product();
