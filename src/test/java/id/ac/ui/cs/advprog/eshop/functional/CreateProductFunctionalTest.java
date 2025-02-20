@@ -41,7 +41,7 @@ class CreateProductFunctionalTest {
     }
 
     @Test
-    void createAndFindProduct(ChromeDriver driver) throws Exception {
+    void createAndFindProduct(ChromeDriver driver) {
         // Create a product on Create Product Page
         driver.get(baseUrl + "/product/create");
         driver.findElement(By.id("nameInput")).sendKeys("Sampo Cap Bambang");
