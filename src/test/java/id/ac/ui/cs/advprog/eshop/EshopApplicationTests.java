@@ -8,6 +8,8 @@ class EshopApplicationTests {
 
     @Test
     void contextLoads() {
+        // Does nothing for the time being
+        // Can be utilized to ensure  context loads if needed in future developments.
     }
 
     @Test
