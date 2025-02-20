@@ -33,7 +33,7 @@ class ProductControllerTest {
     @Test
     void testCreateProductPage() {
         String viewName = productController.createProductPage(model);
-        assertEquals("createProduct", viewName);
+        assertEquals("CreateProduct", viewName);
     }
 
     @Test
@@ -50,14 +50,14 @@ class ProductControllerTest {
     @Test
     void testProductListPage() {
         String viewName = productController.productListPage(model);
-        assertEquals("productList", viewName);
+        assertEquals("ProductList", viewName);
     }
 
     @Test
     void testEditProductPage() {
         String productId = "1";
         String viewName = productController.editProductPage(productId, model);
-        assertEquals("editProduct", viewName);
+        assertEquals("EditProduct", viewName);
     }
 
     @Test
