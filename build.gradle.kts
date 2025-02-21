@@ -90,8 +90,7 @@ tasks.jacocoTestReport {
 
 sonar {
     properties {
-        property("sonar.projectKey", "perutkenyang789_adpro-eshop")
-        property("sonar.organization", "e-shop-advanced-programming")
-        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.projectKey", "adpro-eshop-perutkenyang789")
+        property("sonar.projectName", "adpro-eshop-perutkenyang789")
     }
 }
