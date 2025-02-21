@@ -21,7 +21,7 @@ public class ProductController {
 
     @GetMapping("/")
     public String getDefaultPage() {
-        // TODO: Implement this method for the home page in future development
+        // Method can be implemented in future development for routing to home page
         return "redirect:/product/list";
     }
 
