@@ -13,6 +13,7 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
     private final ProductService service;
+    private static final String PRODUCT_LIST_PAGE = "redirect:/product/list";
 
     @Autowired
     public ProductController(ProductService service) {
@@ -21,8 +22,8 @@ public class ProductController {
 
     @GetMapping("/")
     public String getDefaultPage() {
-        // TODO: Implement this method for the home page in future development
-        return "redirect:/product/list";
+        // Method can be implemented in future development for routing to home page
+        return PRODUCT_LIST_PAGE;
     }
 
     @GetMapping("/create")
@@ -58,12 +59,12 @@ public class ProductController {
         existingProduct.setProductName(product.getProductName());
         existingProduct.setProductQuantity(product.getProductQuantity());
         service.update(existingProduct);
-        return "redirect:/product/list";
+        return PRODUCT_LIST_PAGE;
     }
 
     @GetMapping("/delete/{productId}")
     public String deleteProduct(@PathVariable String productId) {
         service.delete(productId);
-        return "redirect:/product/list";
+        return PRODUCT_LIST_PAGE;
     }
 }
