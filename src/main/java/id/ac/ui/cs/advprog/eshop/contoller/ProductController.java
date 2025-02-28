@@ -80,8 +80,12 @@ public class ProductController {
 @Controller
 @RequestMapping("/car")
 class CarController extends ProductController {
+    private final CarServiceImpl carService;
+
     @Autowired
-    private CarServiceImpl carService;
+    public CarController(CarServiceImpl carService) {
+        this.carService = carService;
+    }
 
     @GetMapping("/createCar")
     public String createCarPage(Model model) {
