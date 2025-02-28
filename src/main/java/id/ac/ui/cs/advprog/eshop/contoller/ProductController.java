@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller
 @RequestMapping("/product")
 public class ProductController {
@@ -82,6 +85,7 @@ public class ProductController {
 class CarController extends ProductController {
     private final CarServiceImpl carService;
     private static final String CAR_LIST_PAGE = "redirect:listCar";
+    private static final Logger logger = LoggerFactory.getLogger(CarController.class);
 
     @Autowired
     public CarController(CarServiceImpl carService) {
@@ -117,7 +121,7 @@ class CarController extends ProductController {
 
     @PostMapping("/editCar")
     public String editCarPost(@ModelAttribute Car car, Model model) {
-        System.out.println(car.getCarId());
+        logger.info("Car ID: " + car.getCarId());
         carService.update(car.getCarId(), car);
 
         return CAR_LIST_PAGE;
