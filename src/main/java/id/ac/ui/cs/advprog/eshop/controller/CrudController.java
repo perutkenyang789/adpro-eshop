@@ -1,4 +1,4 @@
-package id.ac.ui.cs.advprog.eshop.contoller;
+package id.ac.ui.cs.advprog.eshop.controller;
 
 import org.springframework.ui.Model;
 

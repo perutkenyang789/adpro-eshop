@@ -1,4 +1,4 @@
-package id.ac.ui.cs.advprog.eshop.contoller;
+package id.ac.ui.cs.advprog.eshop.controller;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.service.ProductService;
