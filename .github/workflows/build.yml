@@ -35,6 +35,6 @@ jobs:
         run: chmod +x gradlew
       - name: Build and analyze
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_2 }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: ./gradlew build sonar --info

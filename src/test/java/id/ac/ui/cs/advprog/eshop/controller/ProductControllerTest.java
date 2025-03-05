@@ -1,6 +1,5 @@
 package id.ac.ui.cs.advprog.eshop.controller;
 
-import id.ac.ui.cs.advprog.eshop.contoller.ProductController;
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.service.ProductServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +37,7 @@ class ProductControllerTest {
 
     @Test
     void testCreateProductPage() {
-        String viewName = productController.createProductPage(model);
+        String viewName = productController.getCreatePage(model);
         assertEquals("CreateProduct", viewName);
     }
 
@@ -49,20 +48,20 @@ class ProductControllerTest {
         product.setProductName("Test Product");
         product.setProductQuantity(10);
 
-        String viewName = productController.createProductPost(product, model);
+        String viewName = productController.postCreate(product, model);
         assertEquals("redirect:list", viewName);
     }
 
     @Test
     void testProductListPage() {
-        String viewName = productController.productListPage(model);
+        String viewName = productController.getListPage(model);
         assertEquals("ProductList", viewName);
     }
 
     @Test
     void testEditProductPage() {
         String productId = "1";
-        String viewName = productController.editProductPage(productId, model);
+        String viewName = productController.getEditPage(productId, model);
         assertEquals("EditProduct", viewName);
     }
 
@@ -85,7 +84,7 @@ class ProductControllerTest {
         updatedProduct.setProductQuantity(20);
 
         // Call the method
-        String viewName = productController.editProductPost("eb558e9f-1c39-460e-8860-71af6af63bd6", updatedProduct, model);
+        String viewName = productController.postUpdate("eb558e9f-1c39-460e-8860-71af6af63bd6", updatedProduct, model);
 
         // Assertions
         assertEquals("redirect:/product/list", viewName);
@@ -98,7 +97,7 @@ class ProductControllerTest {
     @Test
     void testDeleteProduct() {
         String productId = "1";
-        String viewName = productController.deleteProduct(productId);
+        String viewName = productController.postDelete(productId);
         assertEquals("redirect:/product/list", viewName);
     }
 }
