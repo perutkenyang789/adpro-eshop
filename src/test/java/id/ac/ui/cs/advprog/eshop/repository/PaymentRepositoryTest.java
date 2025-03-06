@@ -39,7 +39,7 @@ class PaymentRepositoryTest {
     @Test
     void testSaveCreate() {
         Order order = new Order("f79e15bb-4b15-42f4-aebc-c3af385fb078", List.of(new Product()), 1708570000L, "Safira Sudrajat");
-        Payment payment = new Payment("2", PaymentMethod.VOUCHER, Map.of("voucherCode", "ESHOP20230101XYZ"));
+        Payment payment = new Payment("106e7f7b-d80c-4c10-b6d7-0fe909a5c4a8", PaymentMethod.VOUCHER, Map.of("voucherCode", "ESHOP20230101XYZ"));
         Payment result = paymentRepository.save(order, payment);
 
         Payment findResult = paymentRepository.findByPaymentId(order.getId());

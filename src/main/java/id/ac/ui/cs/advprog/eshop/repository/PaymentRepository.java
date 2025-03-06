@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Repository
 public class PaymentRepository {
-    private Map<Order, Payment> orderPayments = new HashMap<Order, Payment>();
+    private final Map<Order, Payment> orderPayments = new HashMap<Order, Payment>();
 
     public Payment save(Order order, Payment payment) {
         orderPayments.put(order, payment);
