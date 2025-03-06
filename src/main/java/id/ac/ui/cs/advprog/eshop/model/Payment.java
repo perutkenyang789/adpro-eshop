@@ -1,63 +1,59 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentMethod;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
+import lombok.Builder;
+import lombok.Getter;
+
 import java.util.Map;
 
-class Payment{
-    String id;
-    String method;
-    String status;
-    Map<String, String> paymentData;
+@Builder
+@Getter
+public class Payment {
+    private String id;
+    private PaymentMethod method;
+    private PaymentStatus status;
+    private Map<String, String> paymentData;
 
-    public Payment(String id, String method, Map<String, String> paymentData) {
+    public Payment(String id, PaymentMethod method, Map<String, String> paymentData) {
         this.id = id;
-        setMethod(method);
-        setStatus(method, paymentData);
+        this.method = method;
         this.paymentData = paymentData;
-    }
+        this.status = PaymentStatus.REJECTED; // Default to REJECTED
 
-    private void setMethod(String method) {
-        if (method.equals("Voucher") || method.equals("Bank Transfer")) {
-            this.method = method;
-        } else {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private void setStatus(String method, Map<String, String> paymentData) {
-        boolean isValid = false;
-        if (method.equals("Voucher")) {
-            isValid = checkVoucherValidity(paymentData.get("voucherCode"));
-            if (isValid) {
-                this.status = "SUCCESS";
-            } else {
-                this.status = "REJECTED";
-            }
-        } else if (method.equals("Bank Transfer")) {
-            isValid = checkBankTransferValidity(paymentData);
-            if (isValid) {
-                this.status = "SUCCESS";
-            } else {
-                this.status = "REJECTED";
-            }
-        } else {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private void checkPaymentData(Map<String, String> paymentData) {
         if (paymentData == null || paymentData.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Payment data cannot be empty");
         }
-        this.paymentData = paymentData;
+
+        validateAndSetStatus();
+    }
+
+    public Payment(String id, PaymentMethod method, Map<String, String> paymentData, PaymentStatus status) {
+        this(id, method, paymentData);
+        setStatus(status);
+    }
+
+    public void setStatus(PaymentStatus status) {
+        if (status == null || !PaymentStatus.contains(status.name())) {
+            throw new IllegalArgumentException("Invalid payment status");
+        }
+        this.status = status;
+    }
+
+    private void validateAndSetStatus() {
+        boolean isValid = switch (method) {
+            case VOUCHER -> checkVoucherValidity(paymentData.get("voucherCode"));
+            case BANK_TRANSFER -> checkBankTransferValidity(paymentData);
+        };
+
+        this.status = isValid ? PaymentStatus.SUCCESS : PaymentStatus.REJECTED;
     }
 
     private boolean checkVoucherValidity(String voucherCode) {
-        return voucherCode.matches("^ESHOP[a-zA-Z0-9]*\\d{8}[a-zA-Z0-9]*$");
+        return voucherCode != null && voucherCode.matches("^ESHOP[a-zA-Z0-9]*\\d{8}[a-zA-Z0-9]*$");
     }
 
     private boolean checkBankTransferValidity(Map<String, String> paymentData) {
-        boolean keyNotEmpty = !paymentData.containsKey("") && !paymentData.containsKey(null);
-        boolean valueNotEmpty = !paymentData.containsValue("") && !paymentData.containsValue(null);
-        return keyNotEmpty && valueNotEmpty;
+        return !paymentData.containsKey("") && !paymentData.containsValue("");
     }
 }

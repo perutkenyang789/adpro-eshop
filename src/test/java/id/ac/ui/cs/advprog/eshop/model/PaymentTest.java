@@ -1,75 +1,91 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
-import org.junit.jupiter.api.BeforeEach;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentMethod;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class PaymentTest {
-    private Map<String, String> validVoucherData;
-    private Map<String, String> invalidVoucherData;
-    private Map<String, String> validBankTransferData;
-    private Map<String, String> invalidBankTransferData;
 
-    @BeforeEach
-    void setUp() {
-        validVoucherData = new HashMap<>();
-        validVoucherData.put("voucherCode", "ESHOP123456782024");
+    @Test
+    void testValidVoucherPayment_Success() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("voucherCode", "ESHOP20230101XYZ");
 
-        invalidVoucherData = new HashMap<>();
-        invalidVoucherData.put("voucherCode", "INVALID12345678");
+        Payment payment = new Payment("1", PaymentMethod.VOUCHER, paymentData);
 
-        validBankTransferData = new HashMap<>();
-        validBankTransferData.put("accountNumber", "123456789");
-        validBankTransferData.put("bankName", "Bank UI");
-
-        invalidBankTransferData = new HashMap<>();
-        invalidBankTransferData.put("", ""); // Invalid empty key and value
+        assertEquals("1", payment.getId());
+        assertEquals(PaymentMethod.VOUCHER, payment.getMethod());
+        assertEquals(PaymentStatus.SUCCESS, payment.getStatus());
+        assertEquals(paymentData, payment.getPaymentData());
     }
 
     @Test
-    void testValidVoucherPayment() {
-        Payment payment = new Payment("1", "Voucher", validVoucherData);
-        assertEquals("Voucher", payment.method);
-        assertEquals("SUCCESS", payment.status);
+    void testInvalidVoucherPayment_Rejected() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("voucherCode", "INVALIDCODE123");
+
+        Payment payment = new Payment("2", PaymentMethod.VOUCHER, paymentData);
+
+        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
     }
 
     @Test
-    void testInvalidVoucherPayment() {
-        Payment payment = new Payment("2", "Voucher", invalidVoucherData);
-        assertEquals("Voucher", payment.method);
-        assertEquals("REJECTED", payment.status);
+    void testValidBankTransferPayment_Success() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("accountNumber", "1234567890");
+        paymentData.put("bankName", "Bank UI");
+
+        Payment payment = new Payment("3", PaymentMethod.BANK_TRANSFER, paymentData);
+
+        assertEquals(PaymentStatus.SUCCESS, payment.getStatus());
     }
 
     @Test
-    void testValidBankTransferPayment() {
-        Payment payment = new Payment("3", "Bank Transfer", validBankTransferData);
-        assertEquals("Bank Transfer", payment.method);
-        assertEquals("SUCCESS", payment.status);
+    void testInvalidBankTransferPayment_Rejected() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("accountNumber", "");
+
+        Payment payment = new Payment("4", PaymentMethod.BANK_TRANSFER, paymentData);
+
+        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
     }
 
     @Test
-    void testInvalidBankTransferPayment() {
-        Payment payment = new Payment("4", "Bank Transfer", invalidBankTransferData);
-        assertEquals("Bank Transfer", payment.method);
-        assertEquals("REJECTED", payment.status);
-    }
-
-    @Test
-    void testInvalidPaymentMethod() {
-        assertThrows(IllegalArgumentException.class, () -> new Payment("5", "Credit Card", validBankTransferData));
-    }
-
-    @Test
-    void testNullPaymentData() {
-        assertThrows(IllegalArgumentException.class, () -> new Payment("6", "Bank Transfer", null));
-    }
-
-    @Test
-    void testEmptyPaymentData() {
+    void testPaymentDataCannotBeEmpty() {
         Map<String, String> emptyData = new HashMap<>();
-        assertThrows(IllegalArgumentException.class, () -> new Payment("7", "Bank Transfer", emptyData));
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                new Payment("5", PaymentMethod.BANK_TRANSFER, emptyData)
+        );
+
+        assertEquals("Payment data cannot be empty", exception.getMessage());
+    }
+
+    @Test
+    void testSetValidStatus() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("voucherCode", "ESHOP20230101XYZ");
+
+        Payment payment = new Payment("6", PaymentMethod.VOUCHER, paymentData);
+        payment.setStatus(PaymentStatus.REJECTED);
+
+        assertEquals(PaymentStatus.REJECTED, payment.getStatus());
+    }
+
+    @Test
+    void testSetInvalidStatusThrowsException() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("voucherCode", "ESHOP20230101XYZ");
+
+        Payment payment = new Payment("7", PaymentMethod.VOUCHER, paymentData);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                payment.setStatus(null)
+        );
+
+        assertEquals("Invalid payment status", exception.getMessage());
     }
 }
