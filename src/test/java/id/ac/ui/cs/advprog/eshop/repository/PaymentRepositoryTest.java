@@ -30,7 +30,7 @@ class PaymentRepositoryTest {
 
         List<Product> products = List.of(product);
         Order order = new Order("13652556-012a-4c07-b546-54eb139d679b", products, 1708560000L, "Safira Sudrajat");
-        Payment payment = new Payment("1", PaymentMethod.VOUCHER, Map.of("voucherCode", "ESHOP20230101XYZ"));
+        Payment payment = new Payment("52efd18f-329e-4d7b-8847-fdb0f55b08b7", PaymentMethod.VOUCHER, Map.of("voucherCode", "ESHOP20230101XYZ"));
         orderPayments.put(order, payment);
 
         paymentRepository.save(order, payment);
@@ -84,6 +84,18 @@ class PaymentRepositoryTest {
     @Test
     void testFindByPaymentIdEmptyString() {
         Payment result = paymentRepository.findByPaymentId("");
+        assertNull(result);
+    }
+
+    @Test
+    void testFindOrderByPaymentId() {
+        Order result = paymentRepository.findOrderByPaymentId("52efd18f-329e-4d7b-8847-fdb0f55b08b7");
+        assertNotNull(result);
+    }
+
+    @Test
+    void testFindOrderByPaymentIdNotFound() {
+        Order result = paymentRepository.findOrderByPaymentId("52efd18f-329e-4d7b-8847-fdb0f55b08b8");
         assertNull(result);
     }
 }
