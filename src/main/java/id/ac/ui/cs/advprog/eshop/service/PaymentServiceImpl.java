@@ -14,9 +14,14 @@ import java.util.UUID;
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
+    private final PaymentRepository paymentRepository;
+    private final OrderServiceImpl orderServiceImpl;
+
     @Autowired
-    private PaymentRepository paymentRepository;
-    private OrderServiceImpl orderServiceImpl;
+    public PaymentServiceImpl(PaymentRepository paymentRepository, OrderServiceImpl orderServiceImpl) {
+        this.paymentRepository = paymentRepository;
+        this.orderServiceImpl = orderServiceImpl;
+    }
 
     @Override
     public Payment addPayment(Order order, String method, Map<String, String> paymentData) {
