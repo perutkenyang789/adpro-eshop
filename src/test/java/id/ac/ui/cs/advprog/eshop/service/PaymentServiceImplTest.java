@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-public class PaymentServiceImplTest {
+class PaymentServiceImplTest {
 
     @InjectMocks
     private PaymentServiceImpl paymentService;
@@ -40,7 +40,7 @@ public class PaymentServiceImplTest {
     private List<Product> products;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
 
         // Inject orderServiceImpl using ReflectionTestUtils
@@ -65,7 +65,7 @@ public class PaymentServiceImplTest {
     }
 
     @Test
-    public void testAddPayment_ValidVoucherMethod() {
+    void testAddPayment_ValidVoucherMethod() {
         when(paymentRepository.save(any(Order.class), any(Payment.class))).thenReturn(null);
         when(paymentRepository.findOrderByPaymentId(anyString())).thenReturn(testOrder);
 
@@ -79,7 +79,7 @@ public class PaymentServiceImplTest {
     }
 
     @Test
-    public void testAddPayment_ValidBankTransferMethod() {
+    void testAddPayment_ValidBankTransferMethod() {
         when(paymentRepository.save(any(Order.class), any(Payment.class))).thenReturn(null);
         when(paymentRepository.findOrderByPaymentId(anyString())).thenReturn(testOrder);
 
@@ -93,7 +93,7 @@ public class PaymentServiceImplTest {
     }
 
     @Test
-    public void testAddPayment_InvalidVoucherFormat() {
+    void testAddPayment_InvalidVoucherFormat() {
         Map<String, String> invalidVoucherData = new HashMap<>();
         invalidVoucherData.put("voucherCode", "INVALID");
         when(paymentRepository.save(any(Order.class), any(Payment.class))).thenReturn(null);
@@ -108,7 +108,7 @@ public class PaymentServiceImplTest {
     }
 
     @Test
-    public void testAddPayment_EmptyPaymentData() {
+    void testAddPayment_EmptyPaymentData() {
         Map<String, String> emptyData = new HashMap<>();
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -120,7 +120,7 @@ public class PaymentServiceImplTest {
     }
 
     @Test
-    public void testAddPayment_NullOrderId() {
+    void testAddPayment_NullOrderId() {
         Order orderWithNullId = new Order(null, products, System.currentTimeMillis(), "testUser");
         when(paymentRepository.save(any(Order.class), any(Payment.class))).thenReturn(null);
 
@@ -135,7 +135,7 @@ public class PaymentServiceImplTest {
     }
 
     @Test
-    public void testAddPayment_InvalidMethod() {
+    void testAddPayment_InvalidMethod() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             paymentService.addPayment(testOrder, "INVALID_METHOD", bankTransferPaymentData);
         });
@@ -145,7 +145,7 @@ public class PaymentServiceImplTest {
     }
 
     @Test
-    public void testSetStatus_Success() {
+    void testSetStatus_Success() {
         Payment payment = new Payment("5f2f5778-a815-428b-a5f4-abfadfb0856d", PaymentMethod.VOUCHER, voucherPaymentData);
         Order order = new Order("81d7ddd6-78fc-4755-ad75-2c05f7a0f722", products, System.currentTimeMillis(), "testUser");
 
@@ -158,7 +158,7 @@ public class PaymentServiceImplTest {
     }
 
     @Test
-    public void testSetStatus_Rejected() {
+    void testSetStatus_Rejected() {
         Payment payment = new Payment("5f2f5778-a815-428b-a5f4-abfadfb0856d", PaymentMethod.VOUCHER, voucherPaymentData);
         Order order = new Order("81d7ddd6-78fc-4755-ad75-2c05f7a0f722", products, System.currentTimeMillis(), "testUser");
 
@@ -171,7 +171,7 @@ public class PaymentServiceImplTest {
     }
 
     @Test
-    public void testSetStatus_InvalidStatus() {
+    void testSetStatus_InvalidStatus() {
         Payment payment = new Payment("5f2f5778-a815-428b-a5f4-abfadfb0856d", PaymentMethod.VOUCHER, voucherPaymentData);
         Order order = new Order("81d7ddd6-78fc-4755-ad75-2c05f7a0f722", products, System.currentTimeMillis(), "testUser");
 
@@ -185,7 +185,7 @@ public class PaymentServiceImplTest {
     }
 
     @Test
-    public void testSetStatus_NullOrder() {
+    void testSetStatus_NullOrder() {
         Payment payment = new Payment("5b850806-9c12-4a55-8c63-07ad1357758f", PaymentMethod.VOUCHER, voucherPaymentData);
 
         when(paymentRepository.findOrderByPaymentId("5b850806-9c12-4a55-8c63-07ad1357758f")).thenReturn(null);
@@ -198,7 +198,7 @@ public class PaymentServiceImplTest {
     }
 
     @Test
-    public void testGetPayment() {
+    void testGetPayment() {
         Payment expectedPayment = new Payment("5f2f5778-a815-428b-a5f4-abfadfb0856d", PaymentMethod.VOUCHER, voucherPaymentData);
         when(paymentRepository.findByPaymentId("5f2f5778-a815-428b-a5f4-abfadfb0856d")).thenReturn(expectedPayment);
 
@@ -210,7 +210,7 @@ public class PaymentServiceImplTest {
     }
 
     @Test
-    public void testGetAllPayment() {
+    void testGetAllPayment() {
         List<Payment> expectedPayments = new ArrayList<>();
         expectedPayments.add(new Payment("a634c694-1d13-4b90-a7db-a27d1c04f03a", PaymentMethod.VOUCHER, voucherPaymentData));
         expectedPayments.add(new Payment("c1d6333e-1a9b-41f5-8d2f-f93ae12bb627", PaymentMethod.BANK_TRANSFER, bankTransferPaymentData));
