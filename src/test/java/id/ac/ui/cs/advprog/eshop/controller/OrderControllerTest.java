@@ -107,7 +107,8 @@ class OrderControllerTest {
     @Test
     void testPayOrder() {
         UUID orderId = UUID.randomUUID();
-        when(orderService.updateStatus(orderId.toString(), "SUCCESS")).thenReturn(new Order());
+        Order order = new Order(orderId.toString(), new ArrayList<>(), System.currentTimeMillis(), "John", "SUCCESS");
+        when(orderService.updateStatus(orderId.toString(), "SUCCESS")).thenReturn(order);
 
         String viewName = orderController.payOrder(orderId, model);
         assertEquals("PaymentConfirmation", viewName);
