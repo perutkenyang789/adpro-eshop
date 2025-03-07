@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Repository
 public class PaymentRepository {
-    private final Map<Order, Payment> orderPayments = new HashMap<Order, Payment>();
+    private final Map<Order, Payment> orderPayments = new HashMap<>();
 
     public Payment save(Order order, Payment payment) {
         orderPayments.put(order, payment);
@@ -18,7 +18,8 @@ public class PaymentRepository {
     }
 
     public Payment findByPaymentId(String orderId) {
-        for (Order order : orderPayments.keySet()) {
+        for (Map.Entry<Order, Payment> entry : orderPayments.entrySet()) {
+            Order order = entry.getKey();
             if (order.getId().equals(orderId)) {
                 return orderPayments.get(order);
             }
@@ -31,7 +32,8 @@ public class PaymentRepository {
     }
 
     public Order findOrderByPaymentId(String paymentId) {
-        for (Order order : orderPayments.keySet()) {
+        for (Map.Entry<Order, Payment> entry : orderPayments.entrySet()) {
+            Order order = entry.getKey();
             if (orderPayments.get(order).getId().equals(paymentId)) {
                 return order;
             }
