@@ -29,4 +29,13 @@ public class PaymentRepository {
     public List<Payment> findAll() {
         return List.copyOf(orderPayments.values());
     }
+
+    public Order findOrderByPaymentId(String paymentId) {
+        for (Order order : orderPayments.keySet()) {
+            if (orderPayments.get(order).getId().equals(paymentId)) {
+                return order;
+            }
+        }
+        return null;
+    }
 }
